@@ -1,4 +1,4 @@
-package fish.payara.maven.extensions.dynamicproperties;
+package fish.payara.maven.plugins.dynamicproperties;
 import java.util.Properties;
 
 import org.apache.maven.plugin.AbstractMojo;
