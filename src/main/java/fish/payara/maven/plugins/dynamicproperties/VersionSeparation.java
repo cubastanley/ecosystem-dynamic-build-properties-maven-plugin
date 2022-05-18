@@ -54,11 +54,12 @@ public class VersionSeparation extends AbstractMojo {
         int indexCache = 0;
         for(int i = 0; i < parameterNames.length - 1; i++) {
             properties.setProperty(parameterNames[i], versionComponents[i]);
+            indexCache++;
         }
 
         String finalComponent = "";
         for(int i = indexCache; i < versionComponents.length - 1; i++) {
-            finalComponent += versionComponents[i] + delimiter;
+            finalComponent += versionComponents[i] + delimiter.replace("\\", "");
         }
         
         finalComponent += versionComponents[versionComponents.length - 1];
