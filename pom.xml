@@ -12,9 +12,15 @@
     <name>Dynamic Build Properties Maven Plugin</name>
  
     <properties>
+        <project.scm.id>dynamic-build-properties-plugin-scm</project.scm.id>
+
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.compiler.source>1.8</maven.compiler.source>
     </properties>
+
+    <scm>
+        <developerConnection>scm:git:https://github.com/cubastanley/ecosystem-dynamic-build-properties-maven-plugin</developerConnection>
+    </scm>
 
     <dependencies>
         <dependency>
@@ -50,6 +56,64 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>3.0.0-M5</version>
+                <configuration>
+                    <tagNameFormat>v@{project.version}</tagNameFormat>
+                    <releaseProfiles>release</releaseProfiles>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
+
+    <distributionManagement>
+        <repository>
+            <id>payara-nexus</id>
+            <url>https://nexus.payara.fish/repository/payara-artifacts/</url>
+        </repository>
+    </distributionManagement>
+
+    <repositories>
+        <repository>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <id>payara-nexus</id>
+            <name>Payara Public Artifacts</name>
+            <url>https://nexus.payara.fish/repository/payara-artifacts</url>
+        </repository>
+    </repositories>
+
+    <profiles>
+        <profile>
+            <id>release</id>
+            <plugins>
+                <plugin>
+                    <groupId>org.sonatype.plugins</groupId>
+                    <artifactId>nexus-staging-maven-plugin</artifactId>
+                    <version>1.6.13</version>
+                    <executions>
+                        <execution>
+                            <id>default-deploy</id>
+                            <phase>deploy</phase>
+                            <goals>
+                                <goal>deploy</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <serverId>payara-nexus</serverId>
+                        <nexusUrl>https://nexus.payara.fish</nexusUrl>
+                        <skipStaging>true</skipStaging>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </profile>
+    </profiles>
 </project>
